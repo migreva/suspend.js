@@ -1,4 +1,4 @@
-Suspender
+Suspend.js
 =========
 
 A simple wait-to-trigger library that will suspend a function from being activated
@@ -26,12 +26,12 @@ bower install suspend.js
 Tutorial
 --------
 
-Prevent a function to be actived when keys keep getting pressed
+Prevent a function from being actived when keys keep getting pressed
 
 ```
 var search_wait = new Suspend();
 search_wait.callback(function() {
-  console.log("more than once every 200ms then I wouldn't have activated!");
+  console.log("If key was pressed more than once every 200ms then I wouldn't have activated!");
 });
 
 document
@@ -41,7 +41,7 @@ document
   };
 ```
 
-Or figure out what to do when the window is resized
+Or figure out what to do when the window stops being resized
 
 ```
 var responsive_wait = new Suspend();
@@ -55,7 +55,7 @@ window.onresize = function(event) {
 };
 ```
 
-Delay function until mouse is not longer hovering over eith element
+Delay function until mouse is not longer hovering over either element
 
 ```
 var hover_wait = new Suspend({
