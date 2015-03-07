@@ -1,7 +1,7 @@
 {
   "name": "suspend.js",
   "main": "suspend.js",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "authors": [
     "Eric Bower <neurosnap@gmail.com>"
   ],
