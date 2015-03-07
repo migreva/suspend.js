@@ -8,6 +8,12 @@
     <input type="text" id="search-input" style="width: 90%;" />
     <button type="button" id="search-button">SEARCH</button>
 
+    <br /><br />
+    <div style="width: 50%;">
+      <div style="width: 200px; height: 200px; float: left; background-color: green;" id="box-one"></div>
+      <div style="width: 200px; height: 200px; float: right; background-color: black;" id="box-two"></div>
+    </div>
+
     <script src="../bower_components/requirejs/require.js"></script>
     <script>
       requirejs(["../suspend"], function() {
@@ -20,45 +26,85 @@
         };
         var timer1 = 500;
         var timer2 = 1000;
-        var timer3 = 200;
+        var timer3 = 1000;
 
         /*
          * Delay function until keys stop being pressed
          */
-        var search_wait = new Suspend(function() {
+        var search_wait = new Suspend();
+        search_wait.callback(function() {
           console.log("If key was pressed " + explain(timer1));
         });
 
         document
           .getElementById("search-input")
-          .onkeypress = function(e) {
-            search_wait.every(timer1);
+          .onkeypress = function() {
+            search_wait.every(timer1).start();
           };
 
         /*
          * Delay function until window stops being resized
          */
         var responsive_wait = new Suspend();
-        window.onresize = function(event) {
+        window.onresize = function() {
           responsive_wait
             .callback(function() {
               console.log("If window was resized " + explain(timer2));
             })
-            .every(timer2);
+            .every(timer2)
+            .start();
         };
 
         /*
-         * Delay function until button stops being pressed
+         * Delay function until input box stops being focused or blurred
          */
-        var ewait = new Suspend(function(e) {
-          console.log(e);
-          console.log("If button was clicked " + timer3);
+        var ewait = new Suspend({
+          every: timer3,
+          callback: function(context, e) {
+            console.log(e);
+            console.log("If search box was focused or blurred " + explain(timer3));
+          }
         });
-        document
-          .getElementById("search-button")
-          .onclick = function(e) {
-            ewait.data(e).every(timer3);
+
+        var search_input = document.getElementById("search-input");
+        search_input
+          .onfocus = function(e) {
+            ewait.data(e).trigger();
           };
+        search_input
+          .onblur = function(e) {
+            ewait.data(e).trigger();
+          };
+
+        /*
+         * Delay function until search button stops being clicked
+         */
+        var search_submit = new Suspend();
+        search_submit
+          .every(1000)
+          .on(document.getElementById("search-button"), "onclick")
+          .callback(function(context, e) {
+            console.log(context);
+            console.log(e);
+            console.log("If button was clicked " + explain(1000));
+          })
+          .start();
+
+        /*
+         * Delay function until mouse is not longer hovering
+         */
+        var hover_wait = new Suspend({
+          element: [
+            document.getElementById("box-one"),
+            document.getElementById("box-two")
+          ],
+          event: "onmouseover",
+          every: 1000,
+          callback: function(context, e) {
+            console.log(e);
+            console.log("If either box was hovered " + explain(1000));
+          }
+        }).start();
       });
     </script>
   </body>
