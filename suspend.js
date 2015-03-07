@@ -6,7 +6,7 @@ function Suspend(callback, data) {
 };
 
 Suspend.prototype.data = function(obj) {
-  if (typeof this._data != "undefined") {
+  if (typeof this._data !== "undefined") {
     return this;
   }
   this._data = obj;
@@ -14,7 +14,7 @@ Suspend.prototype.data = function(obj) {
 };
 
 Suspend.prototype.callback = function(cb) {
-  if (typeof this._callback != "undefined") {
+  if (typeof this._callback !== "undefined") {
     return this;
   }
   this._callback = cb;
@@ -29,3 +29,11 @@ Suspend.prototype.every = function(duration) {
   }, duration);
   return that;
 };
+
+(function(name, definition) {
+    if (typeof module != 'undefined') module.exports = definition();
+    else if (typeof define == 'function' && typeof define.amd == 'object') define(definition);
+    else this[name] = definition();
+}('mod', function() {
+    return Suspend;
+}));
