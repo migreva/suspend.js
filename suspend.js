@@ -4,9 +4,10 @@ function Suspend(options) {
 
   // combine Suspend instance with options
   this.settings = this._merge({
-    "every": 500,
-    "event": [],
-    "element": []
+    every: 500,
+    event: [],
+    element: [],
+    callback: null
   }, options);
 
   if (typeof this.settings.event === "string") {
@@ -19,17 +20,13 @@ function Suspend(options) {
   return this;
 };
 
-Suspend.prototype._merge = function() {
-  var obj = {};
-  var key;
-  for (var i = 0, len = arguments.length; i < len; i++) {
-    for (key in arguments[i]) {
-      if (arguments[i].hasOwnProperty(key)) {
-        obj[key] = arguments[i][key];
-      }
+Suspend.prototype._merge = function(defaults, options) {
+  for (key in options) {
+    if (defaults.hasOwnProperty(key)) {
+      defaults[key] = options[key];
     }
   }
-  return obj;
+  return defaults;
 };
 
 Suspend.prototype.data = function(obj) {
