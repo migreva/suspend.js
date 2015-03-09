@@ -100,7 +100,6 @@ Suspend.prototype.start = function(every) {
 };
 
 Suspend.prototype.trigger = function(every) {
-  // alias for Suspend.start
   return this.start(every);
 }
 
