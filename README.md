@@ -66,7 +66,7 @@ var hover_wait = new Suspend({
   event: "onmouseover",
   callback: function(context, e) {
     console.log(context, e);
-    console.log("If either box was hovered more than once every " + context.settings.every + "ms then I wouldn't have activated!);
+    console.log("If either box was hovered more than once every " + context.opts.every + "ms then I wouldn't have activated!);
   }
 }).start();
 ```
