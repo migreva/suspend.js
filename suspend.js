@@ -17,6 +17,7 @@ function Suspend(options) {
       && typeof this.opts.element.length === "undefined") {
         this.opts.element = [this.opts.element];
   }
+
   return this;
 };
 
